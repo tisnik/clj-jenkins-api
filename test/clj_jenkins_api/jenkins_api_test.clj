@@ -1,6 +1,6 @@
-(ns clj-jenkins-api.core-test
+(ns clj-jenkins-api.jenkins-api-test
   (:require [clojure.test :refer :all]
-            [clj-jenkins-api.core :refer :all]))
+            [clj-jenkins-api.jenkins-api :refer :all]))
 
 (deftest a-test
   (testing "FIXME, I fail."

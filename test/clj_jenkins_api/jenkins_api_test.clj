@@ -24,3 +24,8 @@
     (clojure.test/function? function-name))
 
 
+(deftest dummy-test
+    "At least one test result is needed by CI."
+    (testing "Dummy test"
+        (is (= 1 1))))
+

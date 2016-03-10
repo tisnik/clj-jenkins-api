@@ -10,7 +10,7 @@
 ;      Pavel Tisnovsky
 ;
 
-(defproject clj-jenkins-api "0.1.0-SNAPSHOT"
+(defproject org.clojars.tisnik/clj-jenkins-api "0.1.0-SNAPSHOT"
     :description "FIXME: write description"
     :url "http://example.com/FIXME"
     :license {:name "Eclipse Public License"

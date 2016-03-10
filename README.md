@@ -8,13 +8,26 @@ Download from http://example.com/FIXME.
 
 ## Usage
 
-FIXME: explanation
+### API Documentation
 
-    $ java -jar clj-jenkins-api-0.1.0-standalone.jar [args]
+## Leiningen targets
+
+The following Leiningen targets are supported by the current version of this module:
+
+### Run unit tests
+
+    lein test
+
+### Measure code coverage
+
+    lein cloverage
+
+### Generate or regenerate documentation
+
+    lein doc
 
 ## Options
 
-FIXME: listing of options this app accepts.
 
 ## Examples
 

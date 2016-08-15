@@ -92,4 +92,24 @@
             (.printStackTrace e)
             (error-response-structure job-name command e))))
 
+(defn start-job
+    "Start the given job via Jenkins API."
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name]
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "build"))
+
+(defn enable-job
+    "Enable the given job via Jenkins API."
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name]
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "enable"))
+
+(defn disable-job
+    "Disable the given job via Jenkins API."
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name]
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "disable"))
+
+(defn delete-job
+    "Delete the given job via Jenkins API."
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name]
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "doDelete"))
+
 

@@ -13,6 +13,7 @@
 (ns clj-jenkins-api.jenkins-api
     "Module with functions implementing Jenkins API.")
 
+(require '[clojure.data.json :as json])
 (require '[clj-http.client   :as http-client])
 
 (defn job-name->url
@@ -60,6 +61,17 @@
             (if data
                 (get data "jobs")
                 nil))))
+
+(defn read-job-results
+    "Read content of given filename from the job artifact."
+    [jenkins-url job-name filename]
+    (let [url (str (job-name->url jenkins-url job-name) "/lastSuccessfulBuild/artifact/" filename)]
+        (println "Using the following URL to retrieve job results: " url)
+        (try
+            (slurp url)
+            (catch Exception e
+                 (.printStackTrace e)
+                 nil))))
 
 (defn ok-response-structure
     "Structure returned to the calling function when the Jenkins API fails."

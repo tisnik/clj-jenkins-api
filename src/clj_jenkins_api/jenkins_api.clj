@@ -30,4 +30,13 @@
     [jenkins-url job-name]
     (str jenkins-url "job/" (.replaceAll job-name " " "%20")))
 
+(defn update-jenkins-url
+    "Updates URL to Jenkins (API) by adding basic authorization string if provided."
+    [job-config-url jenkins-basic-auth]
+    (if (empty? jenkins-basic-auth)
+        job-config-url
+        (cond (.startsWith job-config-url "https://") (str "https://" jenkins-basic-auth "@" (subs job-config-url 8))
+              (.startsWith job-config-url "http://")  (str "http://"  jenkins-basic-auth "@" (subs job-config-url 7))
+              :else job-config-url)))
+
 

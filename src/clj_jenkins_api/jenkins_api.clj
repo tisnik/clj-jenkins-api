@@ -61,4 +61,35 @@
                 (get data "jobs")
                 nil))))
 
+(defn ok-response-structure
+    "Structure returned to the calling function when the Jenkins API fails."
+    [job-name command include-jenkins-reply? jenkins-response]
+    (if include-jenkins-reply?
+        {:status   "ok"
+         :job-name job-name
+         :command  command
+         :jenkins-response jenkins-response}
+        {:status   "ok"
+         :job-name job-name
+         :command  command}))
+
+(defn error-response-structure
+    "Structure returned to the calling function when the Jenkins API succeded"
+    [job-name command exception]
+    {:status   "error"
+     :job-name job-name
+     :command  command
+     :message  (.getMessage exception)
+    })
+
+(defn job-related-command
+    "Call any job-related command via Jenkins API."
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name command]
+    (try
+        (let [response (post-command jenkins-url jenkins-auth job-name command)]
+            (ok-response-structure job-name command include-jenkins-reply? response))
+        (catch Exception e
+            (.printStackTrace e)
+            (error-response-structure job-name command e))))
+
 

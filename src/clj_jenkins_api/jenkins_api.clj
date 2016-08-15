@@ -112,4 +112,54 @@
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
     (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "doDelete"))
 
+(defn update-template
+    [template git-repo branch]
+    (-> template
+        (clojure.string/replace "<placeholder id=\"git-repo\" />" git-repo)
+        (clojure.string/replace "<placeholder id=\"git-branch\" />" (str "*/" branch))))
+
+(defn log-operation
+    [job-name git-repo branch operation]
+    (println "***" operation "***")
+    (println "job-name" job-name)
+    (println "git-repo" git-repo)
+    (println "branch"   branch))
+
+(defn send-configuration-xml-to-jenkins
+    [url config]
+    (http-client/post url {
+        :body             config
+        :content-type     "application/xml"
+        :keystore         "keystore"
+        :keystore-pass    "changeit"
+        :trust-store      "keystore"
+        :trust-store-pass "changeit"}))
+
+(defn create-job
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch]
+    (log-operation job-name git-repo branch "create")
+    (let [template (slurp "data/template.xml")
+          config   (update-template template git-repo branch)
+          url      (str (update-jenkins-url jenkins-url jenkins-auth) "createItem?name=" (.replaceAll job-name " " "%20"))]
+          (println "URL to use: " url)
+          (try
+              (->> (send-configuration-xml-to-jenkins url config)
+                   (ok-response-structure job-name "create" include-jenkins-reply?))
+              (catch Exception e
+                  (.printStackTrace e)
+                  (error-response-structure job-name "create" e)))))
+
+(defn update-job
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch]
+    (log-operation job-name git-repo branch "update")
+    (let [template (slurp "data/template.xml")
+          config   (update-template template git-repo branch)
+          url      (str (job-name->url (update-jenkins-url jenkins-url jenkins-auth) job-name) "/config.xml")]
+          (println "URL to use: " url)
+          (try
+              (->> (send-configuration-xml-to-jenkins url config)
+                   (ok-response-structure job-name "update" include-jenkins-reply?))
+              (catch Exception e
+                  (.printStackTrace e)
+                  (error-response-structure job-name "update" e)))))
 

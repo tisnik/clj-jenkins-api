@@ -28,6 +28,7 @@ The following Leiningen targets are supported by the current version of this mod
 
 ## Options
 
+FIXME: listing of options this app accepts.
 
 ## Examples
 

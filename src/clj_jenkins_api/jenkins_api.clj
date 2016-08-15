@@ -15,16 +15,6 @@
 
 (require '[clj-http.client   :as http-client])
 
-(defn get-command 
-    "The reimplementation of HTTP GET command that can use JVM keystore for
-     establishing secure connections."
-    [url]
-    (:body (http-client/get url {
-                    :keystore "keystore"
-                    :keystore-pass "changeit"
-                    :trust-store "keystore"
-                    :trust-store-pass "changeit"})))
-
 (defn job-name->url
     "Transform job name (that can contain spaces) to the URL part."
     [jenkins-url job-name]
@@ -38,5 +28,27 @@
         (cond (.startsWith job-config-url "https://") (str "https://" jenkins-basic-auth "@" (subs job-config-url 8))
               (.startsWith job-config-url "http://")  (str "http://"  jenkins-basic-auth "@" (subs job-config-url 7))
               :else job-config-url)))
+
+(defn get-command 
+    "The reimplementation of HTTP GET command that can use JVM keystore for
+     establishing secure connections."
+    [url]
+    (:body (http-client/get url {
+                    :keystore "keystore"
+                    :keystore-pass "changeit"
+                    :trust-store "keystore"
+                    :trust-store-pass "changeit"})))
+
+(defn post-command
+    "The reimplementation of HTTP POST command that can use JVM keystore for
+     establishing secure connections and use basic auth if provided."
+    [jenkins-url jenkins-basic-auth job-name command]
+    (let [url (str (job-name->url (update-jenkins-url jenkins-url jenkins-basic-auth) job-name) "/" command)]
+        ;(println "URL to use: " url)
+        (http-client/post url {
+                    :keystore "keystore"
+                    :keystore-pass "changeit"
+                    :trust-store "keystore"
+                    :trust-store-pass "changeit"})))
 
 

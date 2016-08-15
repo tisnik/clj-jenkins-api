@@ -51,4 +51,14 @@
                     :trust-store "keystore"
                     :trust-store-pass "changeit"})))
 
+(defn read-list-of-all-jobs
+    "Read list of all jobs via Jenkins API."
+    [jenkins-url job-list-part]
+    (let [all-jobs-url (str jenkins-url job-list-part)]
+        (println "Using the following URL to retrieve all Jenkins jobs: " all-jobs-url)
+        (let [data (json/read-str (get-command all-jobs-url))]
+            (if data
+                (get data "jobs")
+                nil))))
+
 

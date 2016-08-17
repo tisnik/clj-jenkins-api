@@ -21,10 +21,14 @@
     [& args]
     (.println System/out (apply str (interpose \space args))))
 
+(defn encode-spaces
+    [url]
+    (clojure.string/replace url " " "%20"))
+
 (defn job-name->url
     "Transform job name (that can contain spaces) to the URL part."
     [jenkins-url job-name]
-    (str jenkins-url "job/" (.replaceAll job-name " " "%20")))
+    (str jenkins-url "job/" (encode-spaces job-name " " "%20")))
 
 (defn update-jenkins-url
     "Updates URL to Jenkins (API) by adding basic authorization string if provided."
@@ -123,22 +127,22 @@
 (defn start-job
     "Start the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "build"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "start_job"))
 
 (defn enable-job
     "Enable the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "enable"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "enable_job"))
 
 (defn disable-job
     "Disable the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "disable"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "disable_job"))
 
 (defn delete-job
     "Delete the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "doDelete"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "delete_job"))
 
 (defn replace-placeholder
     [string placeholder-name value]
@@ -184,7 +188,7 @@
     (log-operation job-name git-repo branch "create_job" metadata)
     (let [template (get-template metadata-directory metadata)
           config   (update-template template git-repo branch metadata)
-          url      (str (update-jenkins-url jenkins-url jenkins-auth) "createItem?name=" (.replaceAll job-name " " "%20"))]
+          url      (str (update-jenkins-url jenkins-url jenkins-auth) "createItem?name=" (encode-spaces job-name))]
           (log "URL to use: " url)
           (try
               (->> (send-configuration-xml-to-jenkins url config)

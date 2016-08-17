@@ -69,8 +69,8 @@
 
 (defn read-job-results
     "Read content of given filename from the job artifact."
-    [jenkins-url job-name filename]
-    (let [url (str (job-name->url jenkins-url job-name) "/lastSuccessfulBuild/artifact/" filename)]
+    [jenkins-url job-name]
+    (let [url (str (job-name->url jenkins-url job-name) "/lastSuccessfulBuild/artifact/results.json")]
         (log "Using the following URL to retrieve job results: " url)
         (try
             (slurp url)
@@ -140,11 +140,18 @@
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
     (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "doDelete"))
 
+(defn replace-placeholder
+    [string placeholder-name value]
+    (if value
+        (clojure.string/replace string (str "<placeholder id=\"" placeholder-name "\" />") value)
+        string))
+
 (defn update-template
     [template git-repo branch]
     (-> template
-        (clojure.string/replace "<placeholder id=\"git-repo\" />" git-repo)
-        (clojure.string/replace "<placeholder id=\"git-branch\" />" (str "*/" branch))))
+        (replace-placeholder "git-repo"                   git-repo)
+        (replace-placeholder "git-branch"                 (str "*/" branch))
+        ))
 
 (defn log-operation
     [job-name git-repo branch operation]

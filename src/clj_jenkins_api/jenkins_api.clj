@@ -147,18 +147,22 @@
         string))
 
 (defn update-template
-    [template git-repo branch]
+    [template git-repo branch metadata]
     (-> template
         (replace-placeholder "git-repo"                   git-repo)
         (replace-placeholder "git-branch"                 (str "*/" branch))
-        ))
+        (replace-placeholder "metadata-language"          (get metadata :language))
+        (replace-placeholder "metadata-environment"       (get metadata :environment))
+        (replace-placeholder "metadata-content-directory" (get metadata :content_directory))
+        (replace-placeholder "metadata-content-type"      (get metadata :content_type))))
 
 (defn log-operation
-    [job-name git-repo branch operation]
+    [job-name git-repo branch operation metadata]
     (log "***" operation "***")
     (log "job-name" job-name)
     (log "git-repo" git-repo)
-    (log "branch"   branch))
+    (log "branch"   branch)
+    (log "metadata" metadata))
 
 (defn send-configuration-xml-to-jenkins
     [url config]
@@ -170,11 +174,15 @@
         :trust-store      "keystore"
         :trust-store-pass "changeit"}))
 
+(defn get-template
+    [metadata]
+    (slurp (if metadata "data/template_with_metadata.xml" "data/template.xml")))
+
 (defn create-job
-    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch]
-    (log-operation job-name git-repo branch "create")
-    (let [template (slurp "data/template.xml")
-          config   (update-template template git-repo branch)
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch metadata]
+    (log-operation job-name git-repo branch "create" metadata)
+    (let [template (get-template metadata)
+          config   (update-template template git-repo branch metadata)
           url      (str (update-jenkins-url jenkins-url jenkins-auth) "createItem?name=" (.replaceAll job-name " " "%20"))]
           (log "URL to use: " url)
           (try
@@ -185,10 +193,10 @@
                   (error-response-structure job-name "create" e)))))
 
 (defn update-job
-    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch]
-    (log-operation job-name git-repo branch "update")
-    (let [template (slurp "data/template.xml")
-          config   (update-template template git-repo branch)
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch metadata]
+    (log-operation job-name git-repo branch "update" metadata)
+    (let [template (get-template metadata)
+          config   (update-template template git-repo branch metadata)
           url      (str (job-name->url (update-jenkins-url jenkins-url jenkins-auth) job-name) "/config.xml")]
           (log "URL to use: " url)
           (try

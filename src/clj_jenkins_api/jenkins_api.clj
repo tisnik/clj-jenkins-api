@@ -16,6 +16,11 @@
 (require '[clojure.data.json :as json])
 (require '[clj-http.client   :as http-client])
 
+(defn log
+    "Thread-safe logging to standard output."
+    [& args]
+    (.println System/out (apply str (interpose \space args))))
+
 (defn job-name->url
     "Transform job name (that can contain spaces) to the URL part."
     [jenkins-url job-name]
@@ -45,7 +50,7 @@
      establishing secure connections and use basic auth if provided."
     [jenkins-url jenkins-basic-auth job-name command]
     (let [url (str (job-name->url (update-jenkins-url jenkins-url jenkins-basic-auth) job-name) "/" command)]
-        ;(println "URL to use: " url)
+        (log "URL to use: " url)
         (http-client/post url {
                     :keystore "keystore"
                     :keystore-pass "changeit"
@@ -56,7 +61,7 @@
     "Read list of all jobs via Jenkins API."
     [jenkins-url job-list-part]
     (let [all-jobs-url (str jenkins-url job-list-part)]
-        (println "Using the following URL to retrieve all Jenkins jobs: " all-jobs-url)
+        (log "Using the following URL to retrieve all Jenkins jobs: " all-jobs-url)
         (let [data (json/read-str (get-command all-jobs-url))]
             (if data
                 (get data "jobs")
@@ -66,7 +71,7 @@
     "Read content of given filename from the job artifact."
     [jenkins-url job-name filename]
     (let [url (str (job-name->url jenkins-url job-name) "/lastSuccessfulBuild/artifact/" filename)]
-        (println "Using the following URL to retrieve job results: " url)
+        (log "Using the following URL to retrieve job results: " url)
         (try
             (slurp url)
             (catch Exception e
@@ -132,10 +137,10 @@
 
 (defn log-operation
     [job-name git-repo branch operation]
-    (println "***" operation "***")
-    (println "job-name" job-name)
-    (println "git-repo" git-repo)
-    (println "branch"   branch))
+    (log "***" operation "***")
+    (log "job-name" job-name)
+    (log "git-repo" git-repo)
+    (log "branch"   branch))
 
 (defn send-configuration-xml-to-jenkins
     [url config]
@@ -153,7 +158,7 @@
     (let [template (slurp "data/template.xml")
           config   (update-template template git-repo branch)
           url      (str (update-jenkins-url jenkins-url jenkins-auth) "createItem?name=" (.replaceAll job-name " " "%20"))]
-          (println "URL to use: " url)
+          (log "URL to use: " url)
           (try
               (->> (send-configuration-xml-to-jenkins url config)
                    (ok-response-structure job-name "create" include-jenkins-reply?))
@@ -167,7 +172,7 @@
     (let [template (slurp "data/template.xml")
           config   (update-template template git-repo branch)
           url      (str (job-name->url (update-jenkins-url jenkins-url jenkins-auth) job-name) "/config.xml")]
-          (println "URL to use: " url)
+          (log "URL to use: " url)
           (try
               (->> (send-configuration-xml-to-jenkins url config)
                    (ok-response-structure job-name "update" include-jenkins-reply?))

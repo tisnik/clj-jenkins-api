@@ -175,34 +175,35 @@
         :trust-store-pass "changeit"}))
 
 (defn get-template
-    [metadata]
-    (slurp (if metadata "data/template_with_metadata.xml" "data/template.xml")))
+    [metadata-directory metadata]
+    (slurp (if metadata (str metadata-directory "/template_with_metadata.xml")
+                        (str metadata-directory "/template.xml"))))
 
 (defn create-job
-    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch metadata]
-    (log-operation job-name git-repo branch "create" metadata)
-    (let [template (get-template metadata)
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch metadata-directory metadata]
+    (log-operation job-name git-repo branch "create_job" metadata)
+    (let [template (get-template metadata-directory metadata)
           config   (update-template template git-repo branch metadata)
           url      (str (update-jenkins-url jenkins-url jenkins-auth) "createItem?name=" (.replaceAll job-name " " "%20"))]
           (log "URL to use: " url)
           (try
               (->> (send-configuration-xml-to-jenkins url config)
-                   (ok-response-structure job-name "create" include-jenkins-reply?))
+                   (ok-response-structure job-name "create_job" include-jenkins-reply?))
               (catch Exception e
                   (.printStackTrace e)
-                  (error-response-structure job-name "create" e)))))
+                  (error-response-structure job-name "create_job" e)))))
 
 (defn update-job
-    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch metadata]
-    (log-operation job-name git-repo branch "update" metadata)
-    (let [template (get-template metadata)
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch metadata-directory metadata]
+    (log-operation job-name git-repo branch "update_job" metadata)
+    (let [template (get-template metadata-directory metadata)
           config   (update-template template git-repo branch metadata)
           url      (str (job-name->url (update-jenkins-url jenkins-url jenkins-auth) job-name) "/config.xml")]
           (log "URL to use: " url)
           (try
               (->> (send-configuration-xml-to-jenkins url config)
-                   (ok-response-structure job-name "update" include-jenkins-reply?))
+                   (ok-response-structure job-name "update_job" include-jenkins-reply?))
               (catch Exception e
                   (.printStackTrace e)
-                  (error-response-structure job-name "update" e)))))
+                  (error-response-structure job-name "update_job" e)))))
 

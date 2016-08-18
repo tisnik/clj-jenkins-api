@@ -1,10 +1,10 @@
 # clj-jenkins-api
 
-FIXME: description
+Set of functions that can be used to communicate with Jenkins via the API.
 
 ## Installation
 
-Download from http://example.com/FIXME.
+[![Clojars Project](https://img.shields.io/clojars/v/org.clojars.tisnik/clj-jenkins-api.svg)](https://clojars.org/org.clojars.tisnik/clj-jenkins-api)
 
 ## Usage
 
@@ -26,25 +26,12 @@ The following Leiningen targets are supported by the current version of this mod
 
     lein doc
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
 ### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015, 2016  Pavel Tisnovsky
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
+

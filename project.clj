@@ -21,6 +21,6 @@
     :plugins [[test2junit "1.1.0"]
               [codox "0.8.11"]
               [lein-cloverage "1.0.6"]]
-    :main ^:skip-aot clj-jenkins-api.core
+    :main ^:skip-aot clj-jenkins-api.jenkins-api
     :target-path "target/%s"
     :profiles {:uberjar {:aot :all}})

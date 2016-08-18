@@ -22,13 +22,14 @@
     (.println System/out (apply str (interpose \space args))))
 
 (defn encode-spaces
+    "Encode spaces in URL into its codes."
     [url]
     (clojure.string/replace url " " "%20"))
 
 (defn job-name->url
     "Transform job name (that can contain spaces) to the URL part."
     [jenkins-url job-name]
-    (str jenkins-url "job/" (encode-spaces job-name " " "%20")))
+    (str jenkins-url "job/" (encode-spaces job-name)))
 
 (defn update-jenkins-url
     "Updates URL to Jenkins (API) by adding basic authorization string if provided."

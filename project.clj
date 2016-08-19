@@ -10,9 +10,9 @@
 ;      Pavel Tisnovsky
 ;
 
-(defproject org.clojars.tisnik/clj-jenkins-api "0.4.0-SNAPSHOT"
+(defproject org.clojars.tisnik/clj-jenkins-api "0.5.0-SNAPSHOT"
     :description "Set of functions to communicate with Jenkins via its API."
-    :url "http://example.com/FIXME"
+    :url "https://github.com/tisnik/clj-jenkins-api"
     :license {:name "Eclipse Public License"
               :url "http://www.eclipse.org/legal/epl-v10.html"}
     :dependencies [[org.clojure/clojure "1.7.0"]

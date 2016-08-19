@@ -143,7 +143,7 @@
 (defn delete-job
     "Delete the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "delete"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "doDelete"))
 
 (defn replace-placeholder
     [string placeholder-name value]

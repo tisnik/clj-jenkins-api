@@ -128,22 +128,22 @@
 (defn start-job
     "Start the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "start_job"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "build"))
 
 (defn enable-job
     "Enable the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "enable_job"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "enable"))
 
 (defn disable-job
     "Disable the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "disable_job"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "disable"))
 
 (defn delete-job
     "Delete the given job via Jenkins API."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name]
-    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "delete_job"))
+    (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "delete"))
 
 (defn replace-placeholder
     [string placeholder-name value]

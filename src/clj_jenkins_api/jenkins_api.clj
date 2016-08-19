@@ -103,7 +103,7 @@
          :command  command
          :jenkinsResponse jenkins-response}
         {:status   "ok"
-         :job-name job-name
+         :jobName  job-name
          :command  command}))
 
 (defn error-response-structure

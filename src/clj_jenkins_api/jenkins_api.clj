@@ -99,9 +99,9 @@
     [job-name command include-jenkins-reply? jenkins-response]
     (if include-jenkins-reply?
         {:status   "ok"
-         :job-name job-name
+         :jobName  job-name
          :command  command
-         :jenkins-response jenkins-response}
+         :jenkinsResponse jenkins-response}
         {:status   "ok"
          :job-name job-name
          :command  command}))
@@ -110,7 +110,7 @@
     "Structure returned to the calling function when the Jenkins API succeded"
     [job-name command exception]
     {:status   "error"
-     :job-name job-name
+     :jobName  job-name
      :command  command
      :message  (.getMessage exception)
     })
@@ -152,22 +152,24 @@
         string))
 
 (defn update-template
-    [template git-repo branch metadata]
+    [template git-repo branch metadata credentials-id]
     (-> template
         (replace-placeholder "git-repo"                   git-repo)
         (replace-placeholder "git-branch"                 (str "*/" branch))
         (replace-placeholder "metadata-language"          (get metadata :language))
         (replace-placeholder "metadata-environment"       (get metadata :environment))
         (replace-placeholder "metadata-content-directory" (get metadata :content_directory))
-        (replace-placeholder "metadata-content-type"      (get metadata :content_type))))
+        (replace-placeholder "metadata-content-type"      (get metadata :content_type))
+        (replace-placeholder "credentials-id"             (credentials-id))))
 
 (defn log-operation
-    [job-name git-repo branch operation metadata]
+    [job-name git-repo branch operation metadata credentials-id]
     (log "***" operation "***")
     (log "job-name" job-name)
     (log "git-repo" git-repo)
     (log "branch"   branch)
-    (log "metadata" metadata))
+    (log "metadata" metadata)
+    (log "crendetials-id" crendetials-id))
 
 (defn send-configuration-xml-to-jenkins
     [url config]
@@ -185,10 +187,10 @@
                         (str metadata-directory "/template.xml"))))
 
 (defn create-job
-    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch metadata-directory metadata]
-    (log-operation job-name git-repo branch "create_job" metadata)
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch credentials-id metadata-directory metadata]
+    (log-operation job-name git-repo branch credentials-id "create_job" metadata)
     (let [template (get-template metadata-directory metadata)
-          config   (update-template template git-repo branch metadata)
+          config   (update-template template git-repo branch metadata credentials-id)
           url      (str (update-jenkins-url jenkins-url jenkins-auth) "createItem?name=" (encode-spaces job-name))]
           (log "URL to use: " url)
           (try
@@ -199,10 +201,10 @@
                   (error-response-structure job-name "create_job" e)))))
 
 (defn update-job
-    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch metadata-directory metadata]
-    (log-operation job-name git-repo branch "update_job" metadata)
+    [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch credentials-id metadata-directory metadata]
+    (log-operation job-name git-repo branch credentials-id "update_job" metadata)
     (let [template (get-template metadata-directory metadata)
-          config   (update-template template git-repo branch metadata)
+          config   (update-template template git-repo branch metadata credentials-id)
           url      (str (job-name->url (update-jenkins-url jenkins-url jenkins-auth) job-name) "/config.xml")]
           (log "URL to use: " url)
           (try

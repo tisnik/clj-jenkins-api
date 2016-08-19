@@ -169,7 +169,7 @@
     (log "git-repo" git-repo)
     (log "branch"   branch)
     (log "metadata" metadata)
-    (log "crendetials-id" crendetials-id))
+    (log "crendetials-id" credentials-id))
 
 (defn send-configuration-xml-to-jenkins
     [url config]

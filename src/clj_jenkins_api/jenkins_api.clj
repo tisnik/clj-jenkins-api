@@ -160,7 +160,7 @@
         (replace-placeholder "metadata-environment"       (get metadata :environment))
         (replace-placeholder "metadata-content-directory" (get metadata :content_directory))
         (replace-placeholder "metadata-content-type"      (get metadata :content_type))
-        (replace-placeholder "credentials-id"             (credentials-id))))
+        (replace-placeholder "credentials-id"             credentials-id)))
 
 (defn log-operation
     [job-name git-repo branch operation metadata credentials-id]
@@ -188,7 +188,7 @@
 
 (defn create-job
     [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch credentials-id metadata-directory metadata]
-    (log-operation job-name git-repo branch credentials-id "create_job" metadata)
+    (log-operation job-name git-repo branch "create_job" metadata credentials-id)
     (let [template (get-template metadata-directory metadata)
           config   (update-template template git-repo branch metadata credentials-id)
           url      (str (update-jenkins-url jenkins-url jenkins-auth) "createItem?name=" (encode-spaces job-name))]
@@ -202,7 +202,7 @@
 
 (defn update-job
     [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch credentials-id metadata-directory metadata]
-    (log-operation job-name git-repo branch credentials-id "update_job" metadata)
+    (log-operation job-name git-repo branch "update_job" metadata credentials-id)
     (let [template (get-template metadata-directory metadata)
           config   (update-template template git-repo branch metadata credentials-id)
           url      (str (job-name->url (update-jenkins-url jenkins-url jenkins-auth) job-name) "/config.xml")]

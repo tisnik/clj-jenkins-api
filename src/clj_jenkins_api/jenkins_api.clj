@@ -23,7 +23,7 @@
 
 (defn encode-spaces
     "Encode spaces in URL into its codes."
-    [url]
+    [^String url]
     (clojure.string/replace url " " "%20"))
 
 (defn job-name->url

@@ -88,3 +88,16 @@
             "jenkins-url:8080/job/job%20name"        (job-name->url "jenkins-url:8080/" "job name")
             "jenkins-url:8080/job/long%20job%20name" (job-name->url "jenkins-url:8080/" "long job name"))))
 
+(deftest test-job-name->url-not-NPE
+    "Check that the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+        (are [x y] (= x y)
+            "job/"  (job-name->url ""  "")
+            "job/"  (job-name->url nil ""))))
+
+(deftest test-job-name->url-NPE
+    "Check that the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+        (is (thrown? NullPointerException (job-name->url ""  nil)))
+        (is (thrown? NullPointerException (job-name->url nil nil)))))
+

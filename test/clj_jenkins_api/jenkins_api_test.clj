@@ -49,4 +49,24 @@
     (testing "if the clj-jenkins-api.jenkins-api/update-jenkins-url definition exists."
         (is (callable? 'clj-jenkins-api.jenkins-api/update-jenkins-url))))
 
+;
+; Function behaviours
+;
+
+(deftest test-encode-spaces
+    "Check that the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
+        (are [x y] (= x y)
+            ""            (encode-spaces "")
+            "%20"         (encode-spaces " ")
+            "x%20"        (encode-spaces "x ")
+            "%20y"        (encode-spaces " y")
+            "x%20y"       (encode-spaces "x y")
+            "x%20y%20z"   (encode-spaces "x y z")
+            "x%20%20%20z" (encode-spaces "x   z"))))
+
+(deftest test-encode-spaces-NPE
+    "Check that the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
+        (is (thrown? NullPointerException (encode-spaces nil)))))
 

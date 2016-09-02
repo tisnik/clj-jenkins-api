@@ -28,7 +28,7 @@
 
 (defn job-name->url
     "Transform job name (that can contain spaces) to the URL part."
-    [jenkins-url job-name]
+    [^String jenkins-url ^String job-name]
     (str jenkins-url "job/" (encode-spaces job-name)))
 
 (defn update-jenkins-url

@@ -70,3 +70,21 @@
     (testing "if the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
         (is (thrown? NullPointerException (encode-spaces nil)))))
 
+(deftest test-job-name->url-1
+    "Check that the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+        (are [x y] (= x y)
+            "job/"                  (job-name->url "" "")
+            " job/"                 (job-name->url " " "")
+            "jenkins-url/job/"      (job-name->url "jenkins-url/" "")
+            "jenkins-url:8080/job/" (job-name->url "jenkins-url:8080/" ""))))
+
+(deftest test-job-name->url-2
+    "Check that the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+        (are [x y] (= x y)
+            "jenkins-url:8080/job/"                  (job-name->url "jenkins-url:8080/" "")
+            "jenkins-url:8080/job/job-name"          (job-name->url "jenkins-url:8080/" "job-name")
+            "jenkins-url:8080/job/job%20name"        (job-name->url "jenkins-url:8080/" "job name")
+            "jenkins-url:8080/job/long%20job%20name" (job-name->url "jenkins-url:8080/" "long job name"))))
+

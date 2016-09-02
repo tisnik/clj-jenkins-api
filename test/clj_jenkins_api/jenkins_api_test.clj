@@ -54,8 +54,8 @@
 ;
 
 (deftest test-encode-spaces
-    "Check that the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
-    (testing "if the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
+    "Check the clj-jenkins-api.jenkins-api/encode-spaces function"
+    (testing "the clj-jenkins-api.jenkins-api/encode-spaces function"
         (are [x y] (= x y)
             ""            (encode-spaces "")
             "%20"         (encode-spaces " ")
@@ -66,13 +66,13 @@
             "x%20%20%20z" (encode-spaces "x   z"))))
 
 (deftest test-encode-spaces-NPE
-    "Check that the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
-    (testing "if the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
+    "Check the function the clj-jenkins-api.jenkins-api/encode-spaces"
+    (testing "the function clj-jenkins-api.jenkins-api/encode-spaces"
         (is (thrown? NullPointerException (encode-spaces nil)))))
 
 (deftest test-job-name->url-1
-    "Check that the clj-jenkins-api.jenkins-api/job-name->url definition exists."
-    (testing "if the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+    "Check the clj-jenkins-api.jenkins-api/job-name->url"
+    (testing "the clj-jenkins-api.jenkins-api/job-name->url"
         (are [x y] (= x y)
             "job/"                  (job-name->url "" "")
             " job/"                 (job-name->url " " "")
@@ -80,8 +80,8 @@
             "jenkins-url:8080/job/" (job-name->url "jenkins-url:8080/" ""))))
 
 (deftest test-job-name->url-2
-    "Check that the clj-jenkins-api.jenkins-api/job-name->url definition exists."
-    (testing "if the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+    "Check the clj-jenkins-api.jenkins-api/job-name->url"
+    (testing "the clj-jenkins-api.jenkins-api/job-name->url"
         (are [x y] (= x y)
             "jenkins-url:8080/job/"                  (job-name->url "jenkins-url:8080/" "")
             "jenkins-url:8080/job/job-name"          (job-name->url "jenkins-url:8080/" "job-name")
@@ -89,15 +89,15 @@
             "jenkins-url:8080/job/long%20job%20name" (job-name->url "jenkins-url:8080/" "long job name"))))
 
 (deftest test-job-name->url-not-NPE
-    "Check that the clj-jenkins-api.jenkins-api/job-name->url definition exists."
-    (testing "if the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+    "Check the clj-jenkins-api.jenkins-api/job-name->url"
+    (testing "the clj-jenkins-api.jenkins-api/job-name->url"
         (are [x y] (= x y)
             "job/"  (job-name->url ""  "")
             "job/"  (job-name->url nil ""))))
 
 (deftest test-job-name->url-NPE
-    "Check that the clj-jenkins-api.jenkins-api/job-name->url definition exists."
-    (testing "if the clj-jenkins-api.jenkins-api/job-name->url definition exists."
+    "Check the clj-jenkins-api.jenkins-api/job-name->url"
+    (testing "the clj-jenkins-api.jenkins-api/job-name->url"
         (is (thrown? NullPointerException (job-name->url ""  nil)))
         (is (thrown? NullPointerException (job-name->url nil nil)))))
 

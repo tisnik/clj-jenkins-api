@@ -4,32 +4,34 @@ Set of functions that can be used to communicate with Jenkins via the API.
 
 ## Installation
 
-Usually no manual installation is required. Just use Leiningen or Maven to
-integrate clj-jenkins-api into your project.
+Usually no manual installation is required. Just use *Leiningen* or *Maven* to
+integrate *clj-jenkins-api* into your project.
 
 ### Manual installation
 
-If you don't want to use Leiningen, you can manually download project snapshot
-from https://clojars.org/org.clojars.tisnik/clj-jenkins-api and integrate the
-source file into your project. Or simply clone the following GIT repository:
-https://github.com/tisnik/clj-jenkins-api
+If you don't want to use *Leiningen*, you can manually download project snapshot
+from
+[https://clojars.org/org.clojars.tisnik/clj-jenkins-api](https://clojars.org/org.clojars.tisnik/clj-jenkins-api)
+and integrate the source file into your project. Or simply clone the following
+GIT repository:
+[https://github.com/tisnik/clj-jenkins-api](https://github.com/tisnik/clj-jenkins-api)
 
 [![Clojars Project](https://img.shields.io/clojars/v/org.clojars.tisnik/clj-jenkins-api.svg)](https://clojars.org/org.clojars.tisnik/clj-jenkins-api)
 
 ### Leiningen
 
-    [org.clojars.tisnik/clj-jenkins-api "0.4.0-SNAPSHOT"]
+    [org.clojars.tisnik/clj-jenkins-api "0.10.0-SNAPSHOT"]
 
 ### Gradle
 
-    compile "org.clojars.tisnik:clj-jenkins-api:clj-jenkins-api:0.4.0-SNAPSHOT"
+    compile "org.clojars.tisnik:clj-jenkins-api:clj-jenkins-api:0.10.0-SNAPSHOT"
 
 ### Maven
 
     <dependency>
         <groupId>org.clojars.tisnik</groupId>
         <artifactId>clj-jenkins-api</artifactId>
-        <version>0.4.0-SNAPSHOT</version>
+        <version>0.10.0-SNAPSHOT</version>
     </dependency>
 
 ## Usage
@@ -40,7 +42,7 @@ https://github.com/tisnik/clj-jenkins-api
 
 ## Leiningen targets
 
-The following Leiningen targets are supported by the current version of this module:
+The following *Leiningen* targets are supported by the current version of this module:
 
 ### Run unit tests
 

@@ -146,12 +146,14 @@
     (job-related-command jenkins-url jenkins-auth include-jenkins-reply? job-name "doDelete"))
 
 (defn replace-placeholder
+    "Replace selected placeholder in the template."
     [string placeholder-name value]
     (if value
         (clojure.string/replace string (str "<placeholder id=\"" placeholder-name "\" />") value)
         string))
 
 (defn update-template
+    "Update the XML template with job configuration."
     [template git-repo branch metadata credentials-id]
     (-> template
         (replace-placeholder "git-repo"                   git-repo)
@@ -172,6 +174,7 @@
     (log "crendetials-id" credentials-id))
 
 (defn send-configuration-xml-to-jenkins
+    "Send the file containing job configuration to Jenkins via its REST API."
     [url config]
     (http-client/post url {
         :body             config
@@ -182,11 +185,13 @@
         :trust-store-pass "changeit"}))
 
 (defn get-template
+    "Read the template from template directory. There are two templates, one for jobs with metadata and second for one without metadata."
     [metadata-directory metadata]
     (slurp (if metadata (str metadata-directory "/template_with_metadata.xml")
                         (str metadata-directory "/template.xml"))))
 
 (defn create-job
+    "Update the selected job. Following values must be specified - git-repo, branch, credentials-id, and metadata for template."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch credentials-id metadata-directory metadata]
     (log-operation job-name git-repo branch "create_job" metadata credentials-id)
     (let [template (get-template metadata-directory metadata)
@@ -201,6 +206,7 @@
                   (error-response-structure job-name "create_job" e)))))
 
 (defn update-job
+    "Update the selected job. Following values can be changed - git-repo, branch, and credentials-id."
     [jenkins-url jenkins-auth include-jenkins-reply? job-name git-repo branch credentials-id metadata-directory metadata]
     (log-operation job-name git-repo branch "update_job" metadata credentials-id)
     (let [template (get-template metadata-directory metadata)

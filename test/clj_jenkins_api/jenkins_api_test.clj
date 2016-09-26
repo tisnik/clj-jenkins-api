@@ -111,6 +111,27 @@
 
 
 
+(deftest test-enable-job-existence
+    "Check that the clj-jenkins-api.jenkins-api/enable-job definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/enable-job definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/enable-job))))
+
+
+
+(deftest test-disable-job-existence
+    "Check that the clj-jenkins-api.jenkins-api/disable-job definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/disable-job definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/job-related-command))))
+
+
+
+(deftest test-delete-job-existence
+    "Check that the clj-jenkins-api.jenkins-api/delete-job definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/delete-job definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/delete-job))))
+
+
+
 ;
 ; Function behaviours
 ;

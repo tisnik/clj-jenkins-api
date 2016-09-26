@@ -185,14 +185,38 @@
 ; Function behaviours
 ;
 
+(deftest test-log
+    "Check the clj-jenkins-api.jenkins-api/log function"
+    (testing "the clj-jenkins-api.jenkins-api/log function"
+        (log)
+        (log "first")
+        (log "first" "second")
+        (log "first" "second" "third")
+        (log 1)
+        (log 1 2)
+        (log 1 2 3)))
+
+(deftest test-log-not-NPE
+    "Check the clj-jenkins-api.jenkins-api/log function"
+    (testing "the clj-jenkins-api.jenkins-api/log function"
+        (log nil)
+        (log nil nil)
+        (log "first" nil)
+        (log nil "second")
+        (log nil "second" nil)))
+
 (deftest test-encode-spaces
     "Check the clj-jenkins-api.jenkins-api/encode-spaces function"
     (testing "the clj-jenkins-api.jenkins-api/encode-spaces function"
         (are [x y] (= x y)
             ""            (encode-spaces "")
             "%20"         (encode-spaces " ")
+            "%20%20"      (encode-spaces "  ")
+            "%20%20%20"   (encode-spaces "   ")
             "x%20"        (encode-spaces "x ")
+            "x%20%20"     (encode-spaces "x  ")
             "%20y"        (encode-spaces " y")
+            "%20%20y"     (encode-spaces "  y")
             "x%20y"       (encode-spaces "x y")
             "x%20y%20z"   (encode-spaces "x y z")
             "x%20%20%20z" (encode-spaces "x   z"))))

@@ -283,4 +283,16 @@
             "https://name:password@example.com/job" (update-jenkins-url "https://example.com/job" "name:password")
             "other://example.com/job"               (update-jenkins-url "other://example.com/job" "name:password"))))
 
+(deftest test-update-jenkins-url-NPE
+    "Check the clj-jenkins-api.jenkins-api/update-jenkins-url"
+    (testing "the clj-jenkins-api.jenkins-api/update-jenkins-url"
+        (is (thrown? NullPointerException (update-jenkins-url nil "name:password")))))
+
+(deftest test-update-jenkins-url-not-NPE
+    "Check the clj-jenkins-api.jenkins-api/update-jenkins-url"
+    (testing "the clj-jenkins-api.jenkins-api/update-jenkins-url"
+        (update-jenkins-url nil nil)
+        (is true "Exception not thrown")
+        (update-jenkins-url nil "")
+        (is true "Exception not thrown")))
 

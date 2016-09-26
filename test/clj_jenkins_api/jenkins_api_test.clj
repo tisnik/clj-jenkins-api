@@ -7,7 +7,7 @@
 ;  http://www.eclipse.org/legal/epl-v10.html
 ;
 ;  Contributors:
-;      Pavel Tisnovsky
+;      Pavel Tisnovsky
 ;
 
 (ns clj-jenkins-api.jenkins-api-test
@@ -22,6 +22,24 @@
     "Test if given function-name is bound to the real function."
     [function-name]
     (clojure.test/function? function-name))
+
+
+
+;
+; Test for function existence
+;
+
+(deftest test-log-existence
+    "Check that the clj-jenkins-api.jenkins-api/log definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/log definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/log))))
+
+
+
+(deftest test-encode-spaces-existence
+    "Check that the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/encode-spaces definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/encode-spaces))))
 
 
 
@@ -48,6 +66,29 @@
     "Check that the clj-jenkins-api.jenkins-api/update-jenkins-url definition exists."
     (testing "if the clj-jenkins-api.jenkins-api/update-jenkins-url definition exists."
         (is (callable? 'clj-jenkins-api.jenkins-api/update-jenkins-url))))
+
+
+
+(deftest test-read-list-of-all-jobs-existence
+    "Check that the clj-jenkins-api.jenkins-api/read-list-of-all-jobs definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/read-list-of-all-jobs definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/read-list-of-all-jobs))))
+
+
+
+(deftest test-read-job-results-existence
+    "Check that the clj-jenkins-api.jenkins-api/read-job-results definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/read-job-results definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/read-job-results))))
+
+
+
+(deftest test-read-file-from-artifact-existence
+    "Check that the clj-jenkins-api.jenkins-api/read-file-from-artifact definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/read-file-from-artifact definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/read-file-from-artifact))))
+
+
 
 ;
 ; Function behaviours

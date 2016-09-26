@@ -90,6 +90,27 @@
 
 
 
+(deftest test-ok-response-structure-existence
+    "Check that the clj-jenkins-api.jenkins-api/ok-response-structure definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/ok-response-structure definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/ok-response-structure))))
+
+
+
+(deftest test-error-response-structure-existence
+    "Check that the clj-jenkins-api.jenkins-api/error-response-structure definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/error-response-structure definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/error-response-structure))))
+
+
+
+(deftest test-job-related-command-existence
+    "Check that the clj-jenkins-api.jenkins-api/job-related-command definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/job-related-command definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/job-related-command))))
+
+
+
 ;
 ; Function behaviours
 ;

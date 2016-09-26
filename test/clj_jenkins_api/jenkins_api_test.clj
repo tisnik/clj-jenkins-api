@@ -132,6 +132,27 @@
 
 
 
+(deftest test-replace-placeholder-existence
+    "Check that the clj-jenkins-api.jenkins-api/replace-placeholder definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/replace-placeholder definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/replace-placeholder))))
+
+
+
+(deftest test-update-template-existence
+    "Check that the clj-jenkins-api.jenkins-api/update-template definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/update-template definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/update-template))))
+
+
+
+(deftest test-log-operation-existence
+    "Check that the clj-jenkins-api.jenkins-api/log-operation definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/log-operation definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/update-template))))
+
+
+
 ;
 ; Function behaviours
 ;

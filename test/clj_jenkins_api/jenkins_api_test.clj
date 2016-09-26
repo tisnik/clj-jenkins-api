@@ -257,3 +257,30 @@
         (is (thrown? NullPointerException (job-name->url ""  nil)))
         (is (thrown? NullPointerException (job-name->url nil nil)))))
 
+(deftest test-update-jenkins-url-1
+    "Check the clj-jenkins-api.jenkins-api/update-jenkins-url"
+    (testing "the clj-jenkins-api.jenkins-api/update-jenkins-url"
+        (are [x y] (= x y)
+            ""                        (update-jenkins-url "" nil)
+            "http://example.com/job"  (update-jenkins-url "http://example.com/job" nil)
+            "https://example.com/job" (update-jenkins-url "https://example.com/job" nil)
+            "other://example.com/job" (update-jenkins-url "other://example.com/job" nil)
+            ""                        (update-jenkins-url "" "")
+            "http://example.com/job"  (update-jenkins-url "http://example.com/job" "")
+            "https://example.com/job" (update-jenkins-url "https://example.com/job" "")
+            "other://example.com/job" (update-jenkins-url "other://example.com/job" "")
+            ""                        (update-jenkins-url "" {})
+            "http://example.com/job"  (update-jenkins-url "http://example.com/job" {})
+            "https://example.com/job" (update-jenkins-url "https://example.com/job" {})
+            "other://example.com/job" (update-jenkins-url "other://example.com/job" {}))))
+
+(deftest test-update-jenkins-url-2
+    "Check the clj-jenkins-api.jenkins-api/update-jenkins-url"
+    (testing "the clj-jenkins-api.jenkins-api/update-jenkins-url"
+        (are [x y] (= x y)
+            ""                                      (update-jenkins-url "" "name:password")
+            "http://name:password@example.com/job"  (update-jenkins-url "http://example.com/job" "name:password")
+            "https://name:password@example.com/job" (update-jenkins-url "https://example.com/job" "name:password")
+            "other://example.com/job"               (update-jenkins-url "other://example.com/job" "name:password"))))
+
+

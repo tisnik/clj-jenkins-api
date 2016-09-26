@@ -167,6 +167,20 @@
 
 
 
+(deftest test-send-configuration-xml-to-jenkins-existence
+    "Check that the clj-jenkins-api.jenkins-api/send-configuration-xml-to-jenkins definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/send-configuration-xml-to-jenkins definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/update-template))))
+
+
+
+(deftest test-get-template-existence
+    "Check that the clj-jenkins-api.jenkins-api/get-template definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/get-template definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/update-template))))
+
+
+
 ;
 ; Function behaviours
 ;

@@ -132,6 +132,20 @@
 
 
 
+(deftest test-create-job-existence
+    "Check that the clj-jenkins-api.jenkins-api/create-job definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/create-job definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/create-job))))
+
+
+
+(deftest test-update-job-existence
+    "Check that the clj-jenkins-api.jenkins-api/update-job definition exists."
+    (testing "if the clj-jenkins-api.jenkins-api/update-job definition exists."
+        (is (callable? 'clj-jenkins-api.jenkins-api/delete-job))))
+
+
+
 (deftest test-replace-placeholder-existence
     "Check that the clj-jenkins-api.jenkins-api/replace-placeholder definition exists."
     (testing "if the clj-jenkins-api.jenkins-api/replace-placeholder definition exists."

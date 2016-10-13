@@ -305,3 +305,11 @@
                 {:body ""} (http-client/get "" nil)
                 {:body "url"} (http-client/get "url" nil)))))
 
+(deftest test-post-command
+    "Check the clj-jenkins-api.jenkins-api/post-command"
+    (testing "the clj-jenkins-api.jenkins-api/post-command"
+        (with-redefs [http-client/get (fn [url mapa] {:body url})]
+            (are [x y] (= x y)
+                {:body ""} (http-client/get "" nil)
+                {:body "url"} (http-client/get "url" nil)))))
+

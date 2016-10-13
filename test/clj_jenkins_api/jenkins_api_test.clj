@@ -321,9 +321,23 @@
         (with-redefs [http-client/post (fn [url mapa] {:body url})]
             (are [x y] (= x y)
                 {:body "job//"}
-                (post-command "" "user@password" "" "")
+                (post-command "" "user:password" "" "")
                 {:body "jenkins-url/job/job-name/"}
-                (post-command "jenkins-url/" "user@password" "job-name" "")
-                {:body "http://user@password@jenkins.url.org/job/job-name/"}
-                (post-command "http://jenkins.url.org/" "user@password" "job-name" "")))))
+                (post-command "jenkins-url/" "user:password" "job-name" "")
+                {:body "http://user:password@jenkins.url.org/job/job-name/"}
+                (post-command "http://jenkins.url.org/" "user:password" "job-name" "")))))
+
+(deftest test-list-of-all-jobs
+    "Check the clj-jenkins-api.jenkins-api/list-of-all-jobs"
+    (testing "the clj-jenkins-api.jenkins-api/list-of-all-jobs"
+        (with-redefs [http-client/get (fn [url mapa] {:body "{\"jobs\": [\"first\", \"second\", \"third\"]}"})]
+            (are [x y] (= x y)
+                ["first" "second" "third"] (read-list-of-all-jobs "" "")))))
+
+(deftest test-list-of-all-jobs-no-data
+    "Check the clj-jenkins-api.jenkins-api/list-of-all-jobs"
+    (testing "the clj-jenkins-api.jenkins-api/list-of-all-jobs"
+        (with-redefs [http-client/get (fn [url mapa] {:body "{\"something\": [\"first\", \"second\", \"third\"]}"})]
+            (are [x y] (= x y)
+                nil (read-list-of-all-jobs "" "")))))
 

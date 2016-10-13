@@ -302,14 +302,28 @@
     (testing "the clj-jenkins-api.jenkins-api/get-command"
         (with-redefs [http-client/get (fn [url mapa] {:body url})]
             (are [x y] (= x y)
-                {:body ""} (http-client/get "" nil)
-                {:body "url"} (http-client/get "url" nil)))))
+                ""                       (get-command "")
+                "url"                    (get-command "url")
+                "http://jenkins.url.org" (get-command "http://jenkins.url.org")))))
 
 (deftest test-post-command
     "Check the clj-jenkins-api.jenkins-api/post-command"
     (testing "the clj-jenkins-api.jenkins-api/post-command"
-        (with-redefs [http-client/get (fn [url mapa] {:body url})]
+        (with-redefs [http-client/post (fn [url mapa] {:body url})]
             (are [x y] (= x y)
-                {:body ""} (http-client/get "" nil)
-                {:body "url"} (http-client/get "url" nil)))))
+                {:body "job//"}    (post-command "" "" "" "")
+                {:body "jenkins-url/job/job-name/"} (post-command "jenkins-url/" "" "job-name" "")
+                {:body "http://jenkins.url.org/job/job-name/"} (post-command "http://jenkins.url.org/" "" "job-name" "")))))
+
+(deftest test-post-command-auth
+    "Check the clj-jenkins-api.jenkins-api/post-command"
+    (testing "the clj-jenkins-api.jenkins-api/post-command"
+        (with-redefs [http-client/post (fn [url mapa] {:body url})]
+            (are [x y] (= x y)
+                {:body "job//"}
+                (post-command "" "user@password" "" "")
+                {:body "jenkins-url/job/job-name/"}
+                (post-command "jenkins-url/" "user@password" "job-name" "")
+                {:body "http://user@password@jenkins.url.org/job/job-name/"}
+                (post-command "http://jenkins.url.org/" "user@password" "job-name" "")))))
 

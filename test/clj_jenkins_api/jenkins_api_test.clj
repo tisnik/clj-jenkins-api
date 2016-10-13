@@ -12,7 +12,8 @@
 
 (ns clj-jenkins-api.jenkins-api-test
   (:require [clojure.test :refer :all]
-            [clj-jenkins-api.jenkins-api :refer :all]))
+            [clj-jenkins-api.jenkins-api :refer :all]
+            [clj-http.client :as http-client]))
 
 ;
 ; Common functions used by tests.
@@ -295,4 +296,12 @@
         (is true "Exception not thrown")
         (update-jenkins-url nil "")
         (is true "Exception not thrown")))
+
+(deftest test-get-command
+    "Check the clj-jenkins-api.jenkins-api/get-command"
+    (testing "the clj-jenkins-api.jenkins-api/get-command"
+        (with-redefs [http-client/get (fn [url mapa] {:body url})]
+            (are [x y] (= x y)
+                {:body ""} (http-client/get "" nil)
+                {:body "url"} (http-client/get "url" nil)))))
 

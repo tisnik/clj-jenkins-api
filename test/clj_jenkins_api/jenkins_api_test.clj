@@ -339,12 +339,18 @@
     (testing "the clj-jenkins-api.jenkins-api/list-of-all-jobs"
         (with-redefs [http-client/get (fn [url mapa] {:body "{\"something\": [\"first\", \"second\", \"third\"]}"})]
             (are [x y] (= x y)
-                nil (read-list-of-all-jobs "" "")))))
+                nil (read-list-of-all-jobs "" "")
+                nil (read-list-of-all-jobs "jenkins-url" "")
+                nil (read-list-of-all-jobs "" "job-name")
+                nil (read-list-of-all-jobs "jenkins-url" "job-name")))))
 
 (deftest test-list-of-all-jobs-null
     "Check the clj-jenkins-api.jenkins-api/list-of-all-jobs"
     (testing "the clj-jenkins-api.jenkins-api/list-of-all-jobs"
         (with-redefs [http-client/get (fn [url mapa] {:body "null"})]
             (are [x y] (= x y)
-                nil (read-list-of-all-jobs "" "")))))
+                nil (read-list-of-all-jobs "" "")
+                nil (read-list-of-all-jobs "jenkins-url" "")
+                nil (read-list-of-all-jobs "" "job-name")
+                nil (read-list-of-all-jobs "jenkins-url" "job-name")))))
 

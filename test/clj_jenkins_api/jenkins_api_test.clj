@@ -341,3 +341,10 @@
             (are [x y] (= x y)
                 nil (read-list-of-all-jobs "" "")))))
 
+(deftest test-list-of-all-jobs-null
+    "Check the clj-jenkins-api.jenkins-api/list-of-all-jobs"
+    (testing "the clj-jenkins-api.jenkins-api/list-of-all-jobs"
+        (with-redefs [http-client/get (fn [url mapa] {:body "null"})]
+            (are [x y] (= x y)
+                nil (read-list-of-all-jobs "" "")))))
+
